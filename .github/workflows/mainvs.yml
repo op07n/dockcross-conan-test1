@@ -51,11 +51,11 @@ jobs:
       - name: Build (Windows)
         if: startsWith(matrix.os, 'windows')
         run: |
-            call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+            call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
             mkdir build
             cd build
             "C:\Program Files\Conan\conan\conan.exe" install .. --build libcurl
-            cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_VERBOSE_MAKEFILE=true -DCMAKE_CONFIGURATION_TYPES=Release ..
+            cmake -G "Visual Studio 16 2019" -A Win32 -DCMAKE_VERBOSE_MAKEFILE=true -DCMAKE_CONFIGURATION_TYPES=Release ..
             msbuild.exe dockcross-conan-test1.vcxproj /p:Configuration=Release /p:AdditionalIncludePaths=%CONAN_INCLUDE_DIRS_LIBCURL%
             echo %CONAN_LIB_DIRS%
             7z a dockcross-conan-test1.zip D:/a/dockcross-conan-test1/
