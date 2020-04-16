@@ -1,12 +1,8 @@
 [requires]
-libcurl/7.50.3@lasote/stable
-
-[options]
-libcurl:shared=true # false
+libcurl/7.52.1@bincrafters/stable
 
 [generators]
-txt
 cmake
 
-[imports]
-., cacert.pem -> ./bin
+[options]
+libcurl:with_openssl=True
