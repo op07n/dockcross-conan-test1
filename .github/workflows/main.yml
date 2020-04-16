@@ -1,0 +1,25 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: generate
+      run: |
+            docker run --rm dockcross/windows-shared-x86 > ./xcross; chmod +x ./xcross; sudo mv ./xcross /usr/bin/
+            xcross bash -c "conan install --build=missing -- .. && gcc -o testcurl testcurl.c -static"
+            ls -la
+            
+    - name: Publish artefacts
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: '/home/runner/work/dockcross-conan-test1/dockcross-conan-test1/testcurl.exe'
+          asset_name: 'testcurl.exe'
+          tag: ${{ github.ref }}
+          overwrite: true            
